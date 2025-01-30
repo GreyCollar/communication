@@ -1,13 +1,11 @@
 import { Socket, io } from "socket.io-client";
 
 import { account } from "./account";
-import connects from "./connects.json";
 import { displayCommand } from "./actions/displayCommand";
 
 //TODO re-visit
 let socketInstance: Socket | null = null;
-
-const userId = connects[1];
+let userId: string | null = null;
 
 const setupSocket = (app) => {
   const session = account(userId);
