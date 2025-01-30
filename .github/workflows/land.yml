@@ -41,7 +41,7 @@ jobs:
           registryUsername: canmingir
           registryUrl: registry.hub.docker.com
           registryPassword: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-          containerAppName: greycollar
+          containerAppName: integration
           resourceGroup: NucGroup
           imageToDeploy: registry.hub.docker.com/canmingir/integration:land-${{ github.run_id }}
 
