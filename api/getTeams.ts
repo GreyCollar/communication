@@ -1,7 +1,7 @@
 import http from "../http";
 
 const getTeams = async (session) => {
-  const { data } = await http.get("/projects", {
+  const { data } = await http.get("projects", {
     headers: {
       Authorization: `Bearer ${session.accessToken}`,
     },
