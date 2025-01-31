@@ -33,6 +33,9 @@ const createKnowledge = async (
       Authorization: `Bearer ${session.accessToken}`,
     },
   });
+
+  console.log("Knowledge created:", response.data);
+
   return response.data;
 };
 
