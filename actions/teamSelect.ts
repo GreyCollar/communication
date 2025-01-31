@@ -10,6 +10,8 @@ const teamSelect = async ({ body, ack, client, say }) => {
 
   try {
     const teams = await getTeams(session);
+    
+    console.log("Teams:", teams);
 
     const blocks = [
       {
