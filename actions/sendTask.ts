@@ -10,7 +10,7 @@ const sendTask = async ({ body, ack, client }) => {
   const session = account(user);
 
   const colleagueId = storage.get("selectedColleagueId");
-  const description = body.state.values.task_block.task_input.value;
+  const description = body.state.values.text_block.text_input.value;
 
   try {
     await createTask(session, description, "IN_PROGRESS", colleagueId);
