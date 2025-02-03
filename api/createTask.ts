@@ -2,7 +2,7 @@ import http from "../http";
 
 const createTask = async (session, description, status,colleagueId) => {
   const response = await http.post(
-    "/task",
+    "/tasks",
     { description, status, colleagueId },
     {
       headers: {
