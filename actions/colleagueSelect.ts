@@ -1,10 +1,14 @@
 import { account } from "../account";
 import { getColleagues } from "../api/getColleagues";
-import storage  from "../Storage";
+import storage from "../Storage";
 
 const colleagueSelect = async ({ body, ack, client }) => {
   await ack();
 
+  const actionId = body.actions[0].action_id;
+  
+  const isLearnFlow = actionId === "learn_colleague_select";
+  
   await storage.set("selectedTeamId", body.actions[0].selected_option.value);
 
   const { user } = body.message;
@@ -20,7 +24,7 @@ const colleagueSelect = async ({ body, ack, client }) => {
         elements: [
           {
             type: "static_select",
-            action_id: "select_learn_type",
+            action_id: isLearnFlow ? "select_learn_type" : "create_task",
             placeholder: {
               type: "plain_text",
               text: "Select a colleague",

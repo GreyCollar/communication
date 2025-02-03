@@ -4,6 +4,10 @@ import { getTeams } from "../api/getTeams";
 const teamSelect = async ({ body, ack, client, say }) => {
   await ack();
 
+  const actionId = body.actions[0].action_id;
+  
+  const isLearnFlow = actionId === "learn_team_select";
+  
   const { user } = body.message;
 
   const session = account(user);
@@ -19,7 +23,7 @@ const teamSelect = async ({ body, ack, client, say }) => {
         elements: [
           {
             type: "static_select",
-            action_id: "colleague_select",
+            action_id: isLearnFlow ? "learn_colleague_select" : "task_colleague_select",
             placeholder: {
               type: "plain_text",
               text: "Select a Team",

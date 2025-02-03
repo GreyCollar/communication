@@ -19,7 +19,7 @@ const learn = async ({ command, ack, say }) => {
               type: "plain_text",
               text: "Select Team",
             },
-            action_id: "team_select",
+            action_id: "learn_team_select",
           },
         ],
       },
