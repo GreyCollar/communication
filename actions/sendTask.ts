@@ -8,17 +8,12 @@ const sendTask = async ({ body, ack, client }) => {
 
   const session = account(user);
 
-  const colleague = body.message.attachments[0].blocks[0].text.text
-    .split("*")[1]
-    .split("*")[0]
-    .trim();
-
   const colleagueId = body.message.metadata.event_payload.colleagueId;
   const description = body.state.values.task_block.task_input.value;
 
   try {
     await createTask(session, description, "IN_PROGRESS", colleagueId);
-    const successMessage = `Task Created Successful! Colleague: ${colleague}`;
+    const successMessage = `Task Created Successful!`;
 
     await client.chat.delete({
       channel: body.channel.id,
@@ -37,7 +32,7 @@ const sendTask = async ({ body, ack, client }) => {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:white_check_mark: *Task Created Successful!*\n\n:bust_in_silhouette: *Colleague:* ${colleague}\n:Task:\n${description}`,
+                text: `:white_check_mark: *Task Created Successful!*\n\n:Task:\n${description}`,
               },
             },
           ],
@@ -59,7 +54,7 @@ const sendTask = async ({ body, ack, client }) => {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `:x: *Learning Submission Failed*\n\nSomething went wrong !\n\n:bust_in_silhouette: *Colleague:* ${colleague}`,
+                text: `:x: *Learning Submission Failed*\n\nSomething went wrong !`,
               },
             },
           ],

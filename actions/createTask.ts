@@ -28,6 +28,22 @@ const createTask = async ({ body, ack, client, action }) => {
     },
   });
 
+  blocks.push({
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Submit :rocket:",
+        },
+        value: "Create Task",
+        action_id: "send_task",
+        style: "primary",
+      },
+    ],
+  });
+
   try {
     await client.chat.update({
       channel: body.channel.id,
