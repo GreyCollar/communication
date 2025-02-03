@@ -1,8 +1,12 @@
 import { AnyBlock } from "@slack/types";
+import storage from "../Storage";
 
 const createTask = async ({ body, ack, client, action }) => {
   await ack();
-
+  
+  const colleagueId = body.actions[0].selected_option.value;
+  
+  storage.set("selectedColleagueId", colleagueId);
 
   let blocks: AnyBlock[] = [
     {

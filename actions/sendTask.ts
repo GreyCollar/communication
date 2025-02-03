@@ -1,5 +1,6 @@
 import { account } from "../account";
 import { createTask } from "../api/createTask";
+import storage from "../Storage";
 
 const sendTask = async ({ body, ack, client }) => {
   await ack();
@@ -8,7 +9,7 @@ const sendTask = async ({ body, ack, client }) => {
 
   const session = account(user);
 
-  const colleagueId = body.message.metadata.event_payload.colleagueId;
+  const colleagueId = storage.get("selectedColleagueId");
   const description = body.state.values.task_block.task_input.value;
 
   try {
