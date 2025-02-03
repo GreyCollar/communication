@@ -3,15 +3,13 @@ import { AnyBlock } from "@slack/types";
 const createTask = async ({ body, ack, client, action }) => {
   await ack();
 
-  const colleague =
-    body.message.attachments[0].blocks[0].text.text.split("*")[1];
 
   let blocks: AnyBlock[] = [
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `:pencil2: You've chosen *${colleague}* \nPlease enter the describe task:`,
+        text: `:pencil2: \nPlease enter the describe task:`,
       },
     },
   ];
