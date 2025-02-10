@@ -1,6 +1,7 @@
 import { App } from "@slack/bolt";
 import { colleagueSelect } from "./actions/colleagueSelect";
 import { createTask } from "./actions/createTask";
+import { displayCommand } from "./actions/displayCommand";
 import { handleLearnType } from "./actions/handleLearnType";
 import { learn } from "./commands/learn";
 import { selectLearnType } from "./actions/selectLearnType";
@@ -15,11 +16,13 @@ const createApp = () => {
     token: process.env.SLACK_BOT_TOKEN,
   });
 
-  app.event(`hello`, async ({ event, say }) => {
-    console.log("Hello event", event);
+  app.event(`user_change`, async ({ event, say }) => {
+    displayCommand(app);
+    console.log("User Change event", event);
   });
 
   app.event(`user_status_changed`, async ({ event, say }) => {
+    displayCommand(app);
     console.log("User status changed", event);
   });
 
