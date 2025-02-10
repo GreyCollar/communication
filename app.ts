@@ -1,6 +1,8 @@
 import { App } from "@slack/bolt";
 import { colleagueSelect } from "./actions/colleagueSelect";
 import { createTask } from "./actions/createTask";
+import { displayCommand } from "./actions/displayCommand";
+import { getKnowledge } from "./api/getKnowledge";
 import { handleLearnType } from "./actions/handleLearnType";
 import { learn } from "./commands/learn";
 import { selectLearnType } from "./actions/selectLearnType";
@@ -13,6 +15,11 @@ const createApp = () => {
   const app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     token: process.env.SLACK_BOT_TOKEN,
+  });
+
+  app.event(`hello`, async ({ event, say }) => {
+    console.log("Hello event", event);
+    await say(`Hello <@${event.user}>!`);
   });
 
   app.command("/learn", learn);
@@ -32,4 +39,3 @@ const createApp = () => {
 };
 
 export { createApp };
-
