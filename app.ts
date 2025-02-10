@@ -27,7 +27,7 @@ const startKnowledgePolling = async (app, channelId, session) => {
 
       if (JSON.stringify(newKnowledge) !== JSON.stringify(lastKnowledgeState)) {
         await app.client.chat.postMessage({
-          channel: channelId || `C07QHJ38M7S`,
+          channel: channelId || `C07QHJ38M7S`
           text: "🔔 Knowledge base has been updated! Check the latest changes.",
         });
 
@@ -55,15 +55,52 @@ const createApp = () => {
             type: "header",
             text: {
               type: "plain_text",
-              text: "🏠 Welcome to Your App Home!",
+              text: "👋 Welcome!",
               emoji: true,
-            },
+            }
+          },
+          {
+            type: "divider"
           },
           {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "*Knowledge Updates* 🔔",
+              text: "*Quick Actions* 🚀"
+            }
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Create New Task",
+                  emoji: true
+                },
+                action_id: "create_task_shortcut",
+                style: "primary"
+              },
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Share Knowledge",
+                  emoji: true
+                },
+                action_id: "share_knowledge_shortcut"
+              }
+            ]
+          },
+          {
+            type: "divider"
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*Knowledge Updates* 🔔\nStay informed about changes to the knowledge base."
             },
             accessory: {
               type: "button",
@@ -71,13 +108,68 @@ const createApp = () => {
               text: {
                 type: "plain_text",
                 text: isPollingActive ? "Stop Updates" : "Start Updates",
-                emoji: true,
+                emoji: true
               },
-              value: isPollingActive ? "stop" : "start",
-            },
+              style: isPollingActive ? "danger" : "primary",
+              value: isPollingActive ? "stop" : "start"
+            }
           },
-        ],
-      },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "mrkdwn",
+                text: isPollingActive 
+                  ? "✅ *Status:* Currently monitoring knowledge base updates"
+                  : "⏸️ *Status:* Updates paused"
+              }
+            ]
+          },
+          {
+            type: "divider"
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*Available Commands* 💡"
+            }
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "• `/learn` - Share your knowledge or learning experiences\n• `/task` - Create and assign tasks to team members"
+            }
+          },
+          {
+            type: "divider"
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*Need Help?* 🤔"
+            }
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Have questions about using the app? Contact the support team or check out our documentation."
+            },
+            accessory: {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "Get Help",
+                emoji: true
+              },
+              action_id: "get_help"
+            }
+          }
+        ]
+      }
     });
   });
 
