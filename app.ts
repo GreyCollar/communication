@@ -27,7 +27,7 @@ const startKnowledgePolling = async (app, channelId, session) => {
 
       if (JSON.stringify(newKnowledge) !== JSON.stringify(lastKnowledgeState)) {
         await app.client.chat.postMessage({
-          channel: channelId || `C07QHJ38M7S`
+          channel: channelId || `C07QHJ38M7S`,
           text: "🔔 Knowledge base has been updated! Check the latest changes.",
         });
 
