@@ -1,17 +1,9 @@
-import {account} from "../account";
+import { account } from "../account";
 import { createKnowledge } from "../api/createKnowledge";
-import { getSocket } from "../socket";
-import storage  from "../Storage";
+import storage from "../Storage";
 
 const submitLearnInfo = async ({ body, ack, client }) => {
   await ack();
-
-  const socket = getSocket();
-
-  if (!socket) {
-    console.error("Socket not initialized");
-    return;
-  }
 
   const { user } = body.message;
 
@@ -26,10 +18,12 @@ const submitLearnInfo = async ({ body, ack, client }) => {
 
   const colleagueId = body.message.metadata.event_payload.colleagueId;
 
-  let learningInfo: string | {
-    question: string;
-    answer: string;
-  } = "";
+  let learningInfo:
+    | string
+    | {
+        question: string;
+        answer: string;
+      } = "";
 
   switch (learnType) {
     case "URL":
@@ -76,15 +70,6 @@ const submitLearnInfo = async ({ body, ack, client }) => {
     });
 
     const teamId = storage.get("selectedTeamId");
-
-    socket.emit("command_sent", {
-      teamId,
-      colleagueName: colleague,
-      learnType,
-      createdAt: new Date(),
-      from: "Slack",
-      learningInfo,
-    });
   } catch (error) {
     console.error("Error handling submit_learn_info:", error);
 
@@ -113,4 +98,3 @@ const submitLearnInfo = async ({ body, ack, client }) => {
 };
 
 export { submitLearnInfo };
-

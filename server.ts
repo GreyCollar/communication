@@ -1,21 +1,16 @@
 import { createApp } from "./app";
 import { createChatApp } from "./chatApp";
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from "http-proxy-middleware";
 import dotenv from "dotenv";
 import express from "express";
-import { setupSocket } from "./socket";
 
 dotenv.config();
-
 
 const startServer = async () => {
   const mainApp = express();
 
   const slackApp = createApp();
   const chatApp = createChatApp();
-
-  setupSocket(slackApp);
-  setupSocket(chatApp);
 
   const slackPort = process.env.SLACK_PORT || 3002;
   const chatPort = process.env.CHAT_PORT || 3003;
