@@ -1,8 +1,6 @@
 import { App } from "@slack/bolt";
 import { colleagueSelect } from "./actions/colleagueSelect";
 import { createTask } from "./actions/createTask";
-import { displayCommand } from "./actions/displayCommand";
-import { getKnowledge } from "./api/getKnowledge";
 import { handleLearnType } from "./actions/handleLearnType";
 import { learn } from "./commands/learn";
 import { selectLearnType } from "./actions/selectLearnType";
