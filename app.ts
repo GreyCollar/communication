@@ -17,12 +17,10 @@ const createApp = () => {
 
   app.event(`hello`, async ({ event, say }) => {
     console.log("Hello event", event);
-    await say(`Hello`);
   });
 
   app.event(`user_status_changed`, async ({ event, say }) => {
     console.log("User status changed", event);
-    await say(`User status changed`);
   });
 
   app.command("/learn", learn);
