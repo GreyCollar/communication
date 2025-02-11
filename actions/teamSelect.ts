@@ -5,16 +5,24 @@ const teamSelect = async ({ body, ack, client, say }) => {
   await ack();
 
   const actionId = body.actions[0].action_id;
-  
-  const isLearnFlow = actionId === "learn_team_select";
-  
+
   const { user } = body.message;
 
   const session = account(user);
 
+  let nexActionId;
+
+  if (actionId === "learn_team_select") {
+    nexActionId = "learn_colleague_select";
+  } else if (actionId === "learn_team_select") {
+    nexActionId = "task_colleague_select";
+  } else {
+    nexActionId = "listen_notifications";
+  }
+
   try {
     const teams = await getTeams(session);
-    
+
     console.log("Teams:", teams);
 
     const blocks = [
@@ -23,7 +31,7 @@ const teamSelect = async ({ body, ack, client, say }) => {
         elements: [
           {
             type: "static_select",
-            action_id: isLearnFlow ? "learn_colleague_select" : "task_colleague_select",
+            action_id: nexActionId,
             placeholder: {
               type: "plain_text",
               text: "Select a Team",
@@ -56,4 +64,3 @@ const teamSelect = async ({ body, ack, client, say }) => {
   }
 };
 export { teamSelect };
-
