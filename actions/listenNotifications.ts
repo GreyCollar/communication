@@ -1,5 +1,6 @@
 import { account } from "../account";
 import { getKnowledge } from "../api/getKnowledge";
+import { log } from "console";
 import storage from "../Storage";
 
 const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 30000;
@@ -28,28 +29,51 @@ const stopPolling = () => {
 const startKnowledgePolling = async ({ body, ack, client }) => {
   await ack();
   const channelId = body.channel.id;
+  const messageTs = body.message.ts;
+  
   const { user } = body.message;
-  
-  const session = account(user);
-  await storage.set("selectedTeamId", body.actions[0].selected_option.value);
-  
+
+  await client.chat.update({
+    channel: channelId,
+    ts: messageTs,
+    metadata: {},
+    attachments: [
+      {
+        color: "#3366cc",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "🔔 Listening to knowledge updates...",
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+
   stopPolling();
-  
+  await storage.set("selectedTeamId", body.actions[0].selected_option.value);
+  const session = account(user);
+
   lastKnowledgeState = await getKnowledge(session);
-  
+
   pollingInterval = setInterval(async () => {
+    await storage.set("selectedTeamId", body.actions[0].selected_option.value);
+
+    const session = account(user);
     const newKnowledge = await getKnowledge(session);
-    
+
     const newEntries = newKnowledge.filter(
       (entry: KnowledgeEntry) =>
-        !lastKnowledgeState.some(
-          (old: KnowledgeEntry) => old.id === entry.id
-        )
+        !lastKnowledgeState.some((old: KnowledgeEntry) => old.id === entry.id)
     );
 
     for (const entry of newEntries) {
       const formattedDate = new Date(entry.createdAt).toLocaleString();
-      
+
       let messageText =
         `🔔 *New Knowledge Entry Added!*\n` +
         `Type: ${entry.type}\n` +
@@ -77,3 +101,4 @@ const listenNotifications = async ({ body, ack, client }) => {
 };
 
 export { listenNotifications };
+
