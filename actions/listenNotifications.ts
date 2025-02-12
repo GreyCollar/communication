@@ -58,7 +58,10 @@ const startKnowledgePolling = async ({ body, ack, client }) => {
 
   const channelId = body.channel.id;
   const messageTs = body.message.ts;
+
   const { user } = body.message;
+  await storage.set("selectedTeamId", body.actions[0].selected_option.value);
+
 
   try {
     const session = account(user);
