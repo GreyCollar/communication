@@ -64,7 +64,7 @@ const handleUnauthorized = async (
 const pollKnowledge = async (session, client, channelId: string, messageTs: string) => {
   try {
     const newKnowledge = await getKnowledge(session);
-    retryCount = 0;
+    retryCount = 0; 
 
     if (JSON.stringify(newKnowledge) !== JSON.stringify(lastKnowledgeState)) {
       const newEntries = newKnowledge.filter(
@@ -122,6 +122,7 @@ const pollKnowledge = async (session, client, channelId: string, messageTs: stri
 const startKnowledgePolling = async ({ body, ack, client }) => {
   await ack();
 
+  let startPolling; 
   const channelId = body.channel.id;
   const messageTs = body.message.ts;
   const { user } = body.message;
@@ -185,7 +186,8 @@ const startKnowledgePolling = async ({ body, ack, client }) => {
     });
     
     await sleep(RETRY_DELAY);
-    await startKnowledgePolling({ body, ack, client });
+    isPollingActive = false; 
+    await startPolling(); 
   }
 };
 
