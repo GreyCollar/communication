@@ -2,10 +2,11 @@ import { account } from "../account";
 import { getKnowledge } from "../api/getKnowledge";
 import storage from "../Storage";
 
+const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 30000;
+
+let pollingInterval: NodeJS.Timeout;
 let lastKnowledgeState = [];
 let isPollingActive = false;
-let pollingInterval: NodeJS.Timeout;
-
 interface KnowledgeEntry {
   id: string;
   type: string;
@@ -61,7 +62,6 @@ const startKnowledgePolling = async ({ body, ack, client }) => {
 
   const { user } = body.message;
   await storage.set("selectedTeamId", body.actions[0].selected_option.value);
-
 
   try {
     const session = account(user);
@@ -163,7 +163,7 @@ const startKnowledgePolling = async ({ body, ack, client }) => {
           text: "⚠️ Error checking for knowledge base updates. Will retry later.",
         });
       }
-    }, 60000);
+    }, POLLING_INTERVAL);
   } catch (error: any) {
     console.error("Error in startKnowledgePolling:", error);
     await client.chat.postMessage({
