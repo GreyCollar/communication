@@ -6,10 +6,21 @@ const colleagueSelect = async ({ body, ack, client }) => {
   await ack();
 
   const actionId = body.actions[0].action_id;
-  
-  const isLearnFlow = actionId === "learn_colleague_select";
-  
+
+  let action_id;
+
+  if(actionId === 'learn_colleague_select') {
+    action_id = 'select_learn_type';
+  } else if (actionId === 'task_colleague_select') {
+    action_id = 'create_task';
+  } else if (actionId === 'setup_colleague_select') {
+    action_id = 'setup_ai_chat';
+  } else if (actionId === 'supervising_colleague_select') {
+    action_id = 'supervising_info';
+  }
+    
   await storage.set("selectedTeamId", body.actions[0].selected_option.value);
+  console.log(body);
 
   const { user } = body.message;
 
@@ -24,7 +35,7 @@ const colleagueSelect = async ({ body, ack, client }) => {
         elements: [
           {
             type: "static_select",
-            action_id: isLearnFlow ? "select_learn_type" : "create_task",
+            action_id: action_id,
             placeholder: {
               type: "plain_text",
               text: "Select a colleague",
