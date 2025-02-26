@@ -1,11 +1,11 @@
 import http from "../http";
 import storage from "../Storage";
 
-const createSession = async (session, accessToken) => {
-  const colleagueId = storage.get("selectedColleagueId");
+const createSession = async (accessToken) => {
+  let colleagueId = storage.get("selectedColleagueId");
 
   const create = await http.post(
-    `/sessions/${session}`,
+    `/sessions`,
     {
       type: "CHAT",
       colleagueId: colleagueId,
@@ -22,3 +22,4 @@ const createSession = async (session, accessToken) => {
 };
 
 export { createSession };
+

@@ -16,14 +16,16 @@ const teamSelect = async ({ body, ack, client, say }) => {
     nexActionId = "learn_colleague_select";
   } else if (actionId === "learn_team_select") {
     nexActionId = "task_colleague_select";
+  } else if (actionId === "setup_team_select") {
+    nexActionId = "setup_colleague_select";
+  } else if (actionId === "supervising_team_select") {
+    nexActionId = "supervising_colleague_select";
   } else {
     nexActionId = "listen_notifications";
   }
 
   try {
     const teams = await getTeams(session);
-
-    console.log("Teams:", teams);
 
     const blocks = [
       {
@@ -64,3 +66,4 @@ const teamSelect = async ({ body, ack, client, say }) => {
   }
 };
 export { teamSelect };
+
