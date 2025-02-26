@@ -10,13 +10,10 @@ const startServer = async () => {
   const mainApp = express();
 
   const slackApp = createApp();
-  const chatApp = createChatApp();
 
   const slackPort = process.env.SLACK_PORT || 3002;
-  const chatPort = process.env.CHAT_PORT || 3003;
 
   await slackApp.start(slackPort);
-  await chatApp.start(chatPort);
 
   const slackProxy = createProxyMiddleware({
     target: `http://localhost:${slackPort}`,
@@ -26,16 +23,7 @@ const startServer = async () => {
     },
   });
 
-  const chatProxy = createProxyMiddleware({
-    target: `http://localhost:${chatPort}`,
-    ws: true,
-    pathRewrite: {
-      "^/chat": "",
-    },
-  });
-
   mainApp.use("/bot", slackProxy);
-  mainApp.use("/chat", chatProxy);
 
   const mainPort = process.env.MAIN_PORT || 3001;
   mainApp.listen(mainPort, () => {
