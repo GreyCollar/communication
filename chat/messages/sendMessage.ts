@@ -40,7 +40,7 @@ const sendMessage = async ({ message, say }) => {
 
   session = chat.set(user, uuidv4());
 
-  await createSession(session, accessToken);
+  await createSession(accessToken);
 
   const question = message.text;
   const answer = getAnswer(question);
