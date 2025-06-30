@@ -1,4 +1,4 @@
-//import { publish, subscribe } from "../lib/Event";
+import { publish, subscribe } from "react-event-test/client";
 
 import { Server } from "socket.io";
 import { createSession } from "../api/createSession";
@@ -71,7 +71,7 @@ const setup = (io: Server) => {
   io.on("error", (err) => {
     console.error("Socket error:", err);
   });
-  /*
+
   subscribe("SESSION", "AI_MESSAGED", ({ sessionId, content }) => {
     const socketId = sockets[sessionId];
     if (socketId) {
@@ -80,8 +80,6 @@ const setup = (io: Server) => {
       });
     }
   });
-  */
 };
 
 export default { setup };
-
