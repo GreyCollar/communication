@@ -5,7 +5,9 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
-import session from "./test_chat/session";
+import { subscribe } from "nuc-node-event-test/client";
+
+//import session from "./test_chat/session";
 
 dotenv.config();
 
@@ -36,10 +38,14 @@ const startServer = async () => {
     },
   });
 
-  session.setup(io);
+  //session.setup(io);
 
   const mainPort = process.env.MAIN_PORT || 3001;
   const scoketIoPort = process.env.SOCKET_IO_PORT || 3003;
+
+  subscribe("TEST_EVENT", ({ message }) => {
+    console.log(`⚡️ TEST_EVENT message received: ${message}`);
+  });
 
   mainApp.listen(mainPort, () => {
     console.log(`⚡️ Main server running on port ${mainPort}`);
