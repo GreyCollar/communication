@@ -5,11 +5,18 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
+import { nodeEvent } from "nuc-node-event-test/client";
 import session from "./test_chat/session";
 
 dotenv.config();
 
 const startServer = async () => {
+  nodeEvent.init({
+    host: process.env.NODE_EVENT_HOST || "localhost",
+    port: parseInt(process.env.NODE_EVENT_PORT || "8080"),
+    protocol: (process.env.NODE_EVENT_PROTOCOL as "http" | "https") || "http",
+  });
+
   const mainApp = express();
 
   const slackApp = createApp();
