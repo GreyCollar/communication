@@ -3,7 +3,7 @@ import { createSession } from "../api/createSession";
 import dotenv from "dotenv";
 import { getColleague } from "../api/getColleague";
 import jwt from "jsonwebtoken";
-import { nodeEvent } from "nuc-node-event-test/client";
+import { nodeEvent } from "@nucleoidai/node-event/client";
 import { sendMessageToSession } from "../api/sendMessageSession";
 
 const sockets = {};

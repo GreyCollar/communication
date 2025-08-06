@@ -5,7 +5,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
-import { nodeEvent } from "nuc-node-event-test/client";
+import { nodeEvent } from "@nucleoidai/node-event/client";
 import session from "./test_chat/session";
 
 dotenv.config();
