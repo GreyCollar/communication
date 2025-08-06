@@ -1,9 +1,9 @@
 import { Server } from "socket.io";
 import { createSession } from "../api/createSession";
 import dotenv from "dotenv";
+import { event } from "@nucleoidai/node-event/client";
 import { getColleague } from "../api/getColleague";
 import jwt from "jsonwebtoken";
-import { nodeEvent } from "nuc-node-event-test/client";
 import { sendMessageToSession } from "../api/sendMessageSession";
 
 const sockets = {};
@@ -71,7 +71,7 @@ const setup = (io: Server) => {
     console.error("Socket error:", err);
   });
 
-  nodeEvent.subscribe("AI_MESSAGED", ({ sessionId, content }) => {
+  event.subscribe("AI_MESSAGED", ({ sessionId, content }) => {
     const socketId = sockets[sessionId];
     if (socketId) {
       io.to(socketId).emit("ai_message", {
